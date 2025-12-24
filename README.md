@@ -16,3 +16,9 @@ gh auth login
 ```bash
 cd wsl-development-software-installer
 ```
+
+## 補足：gitの設定
+```bash
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+```

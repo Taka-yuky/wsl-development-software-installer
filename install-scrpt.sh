@@ -28,7 +28,16 @@ if ! apt-cache show python3.13 >/dev/null 2>&1; then
 fi
 
 sudo apt-get install -y \
-  python3.13 python3.13-venv python3.13-dev python3.13-distutils
+  python3.13 python3.13-venv python3.13-dev
+
+log "Bootstrap pip for Python 3.13"
+python3.13 -m ensurepip --upgrade
+python3.13 -m pip install --upgrade pip setuptools wheel
+
+log "Python version:"
+python3.13 --version
+python3.13 -m pip --version
+
 
 # Optional: make python3 -> python3.13 (leave off by default; uncomment if you want)
 # sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 20
