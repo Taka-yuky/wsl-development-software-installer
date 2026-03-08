@@ -21,3 +21,15 @@ wsl -d <Distribution Name>
 ```bash
 wsl --install <Distribution Name> --Name <Env Name>
 ```
+
+## 名前を指定してシャットダウン
+
+```bash
+wsl --terminate <Distribution Name>
+```
+
+## 名前を指定してアンインストール
+
+```bash
+wsl --unregister <Distribution Name>
+```

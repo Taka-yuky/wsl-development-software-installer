@@ -14,6 +14,7 @@ gh auth login
 
 3. インストール用スクリプトを実行
 ```bash
+git clone https://github.com/Taka-yuky/wsl-development-software-installer.git
 cd wsl-development-software-installer
 source install-script.sh
 ```
