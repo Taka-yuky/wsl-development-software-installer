@@ -2,7 +2,8 @@
 set -euo pipefail
 
 # Ubuntu on WSL assumed.
-# Installs: nvm, Node.js (LTS), AWS CLI v2, AWS CDK, Python 3.13, Docker Engine.
+# Installs: nvm, Node.js (LTS), AWS CLI v2, AWS CDK, Python 3.13, Docker Engine,
+#           Claude Code, Codex, uv.
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -31,7 +32,7 @@ sudo apt-get install -y \
   python3.13 python3.13-venv python3.13-dev
 
 log "Bootstrap pip for Python 3.13"
-python3.13 -m ensurepip --upgrade
+curl -fsSL https://bootstrap.pypa.io/get-pip.py | python3.13
 python3.13 -m pip install --upgrade pip setuptools wheel
 
 log "Python version:"
@@ -42,16 +43,13 @@ python3.13 -m pip --version
 # Optional: make python3 -> python3.13 (leave off by default; uncomment if you want)
 # sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 20
 
-log "Python version:"
-python3.13 --version
-
 # -----------------------------
 # nvm + Node.js (LTS)
 # -----------------------------
 log "Install nvm"
 if [ ! -d "${HOME}/.nvm" ]; then
   # Official install script
-  curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+  curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 fi
 
 # Load nvm into this shell
@@ -91,8 +89,38 @@ aws --version
 # AWS CDK (CLI)
 # -----------------------------
 log "Install AWS CDK CLI (global npm)"
-npm install -g aws-cdk
+if ! require_cmd cdk; then
+  npm install -g aws-cdk
+fi
 cdk --version
+
+# -----------------------------
+# Claude Code (CLI)
+# -----------------------------
+log "Install Claude Code CLI (global npm)"
+if ! require_cmd claude; then
+  npm install -g @anthropic-ai/claude-code
+fi
+claude --version
+
+# -----------------------------
+# Codex (CLI)
+# -----------------------------
+log "Install Codex CLI (global npm)"
+if ! require_cmd codex; then
+  npm install -g @openai/codex
+fi
+codex --version
+
+# -----------------------------
+# uv (Python package manager)
+# -----------------------------
+log "Install uv"
+if ! require_cmd uv; then
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+fi
+export PATH="${HOME}/.local/bin:${PATH}"
+uv --version
 
 # -----------------------------
 # Docker Engine (official apt repo)

@@ -15,6 +15,7 @@ gh auth login
 3. インストール用スクリプトを実行
 ```bash
 cd wsl-development-software-installer
+source install-script.sh
 ```
 
 ## 補足：gitの設定
